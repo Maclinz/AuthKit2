@@ -6,6 +6,8 @@ import {
   registerUser,
   updateUser,
   userLoginStatus,
+  verifyEmail,
+  verifyUser,
 } from "../controllers/auth/userController.js";
 import {
   adminMiddleware,
@@ -33,5 +35,11 @@ router.get("/admin/users", protect, creatorMiddleware, getAllUsers);
 
 // login status
 router.get("/login-status", userLoginStatus);
+
+// verify user --> email verification
+router.post("/verify-email", protect, verifyEmail);
+
+// verify user --> email verification
+router.post("/verify-user/:verificationToken", verifyUser);
 
 export default router;
