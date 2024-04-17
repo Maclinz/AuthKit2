@@ -7,7 +7,6 @@ import Token from "../../models/auth/Token.js";
 import crypto from "node:crypto";
 import hashToken from "../../helpers/hashToken.js";
 import sendEmail from "../../helpers/sendEmail.js";
-import exp from "node:constants";
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -256,33 +255,35 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 export const verifyUser = asyncHandler(async (req, res) => {
   const { verificationToken } = req.params;
 
-  //validate the verification token
   if (!verificationToken) {
-    return res.status(400).json({ message: "Invalid token" });
+    return res.status(400).json({ message: "Invalid verification token" });
   }
-
-  // hast the verification token ---> because it was hashed before saving
+  // hash the verification token --> because it was hashed before saving
   const hashedToken = hashToken(verificationToken);
 
-  const userToken = await Token({
+  // find user with the verification token
+  const userToken = await Token.findOne({
     verificationToken: hashedToken,
-    // check if the token is not expired
+    // check if the token has not expired
     expiresAt: { $gt: Date.now() },
   });
 
   if (!userToken) {
-    return res.status(400).json({ message: "Invalid or expired token" });
+    return res
+      .status(400)
+      .json({ message: "Invalid or expired verification token" });
   }
 
-  // find the user by the id in the token
+  //find user with the user id in the token
   const user = await User.findById(userToken.userId);
 
   if (user.isVerified) {
+    // 400 Bad Request
     return res.status(400).json({ message: "User is already verified" });
   }
 
-  // update the user isVerified property
+  // update user to verified
   user.isVerified = true;
   await user.save();
-  res.status(200).json({ message: "User Verified!" });
+  res.status(200).json({ message: "User verified" });
 });
