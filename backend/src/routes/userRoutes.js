@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  forgotPassword,
   getUser,
   loginUser,
   logoutUser,
@@ -41,5 +42,8 @@ router.post("/verify-email", protect, verifyEmail);
 
 // veriify user --> email verification
 router.post("/verify-user/:verificationToken", verifyUser);
+
+// forgot password
+router.post("/forgot-password", forgotPassword);
 
 export default router;
