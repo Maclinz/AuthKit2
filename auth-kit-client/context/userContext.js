@@ -78,6 +78,9 @@ export const UserContextProvider = ({ children }) => {
         password: "",
       });
 
+      // refresh the user details
+      await getUser(); // fetch before redirecting
+
       // push user to the dashboard page
       router.push("/");
     } catch (error) {
@@ -355,7 +358,6 @@ export const UserContextProvider = ({ children }) => {
   useEffect(() => {
     const loginStatusGetUser = async () => {
       const isLoggedIn = await userLoginStatus();
-      console.log("isLoggedIn", isLoggedIn);
 
       if (isLoggedIn) {
         await getUser();
