@@ -180,6 +180,78 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  // email verification
+  const emailVerification = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${serverUrl}/api/v1/verify-email`,
+        {},
+        {
+          withCredentials: true, // send cookies to the server
+        }
+      );
+
+      toast.success("Email verification sent successfully");
+      setLoading(false);
+    } catch (error) {
+      console.log("Error sending email verification", error);
+      setLoading(false);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  // verify user/email
+  const verifyUser = async (token) => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${serverUrl}/api/v1/verify-user/${token}`,
+        {},
+        {
+          withCredentials: true, // send cookies to the server
+        }
+      );
+
+      toast.success("User verified successfully");
+
+      // refresh the user details
+      getUser();
+
+      setLoading(false);
+      // redirect to home page
+      router.push("/");
+    } catch (error) {
+      console.log("Error verifying user", error);
+      toast.error(error.response.data.message);
+      setLoading(false);
+    }
+  };
+
+  // forgot password email
+  const forgotPasswordEmail = async (email) => {
+    setLoading(true);
+
+    try {
+      const res = await axios.post(
+        `${serverUrl}/api/v1/forgot-password`,
+        {
+          email,
+        },
+        {
+          withCredentials: true, // send cookies to the server
+        }
+      );
+
+      toast.success("Forgot password email sent successfully");
+      setLoading(false);
+    } catch (error) {
+      console.log("Error sending forgot password email", error);
+      toast.error(error.response.data.message);
+      setLoading(false);
+    }
+  };
+
   // dynamic form handler
   const handlerUserInput = (name) => (e) => {
     const value = e.target.value;
@@ -202,7 +274,7 @@ export const UserContextProvider = ({ children }) => {
 
     loginStatusGetUser();
   }, []);
-  console.log("user", user);
+
   return (
     <UserContext.Provider
       value={{
@@ -214,6 +286,9 @@ export const UserContextProvider = ({ children }) => {
         userLoginStatus,
         user,
         updateUser,
+        emailVerification,
+        verifyUser,
+        forgotPasswordEmail,
       }}
     >
       {children}
