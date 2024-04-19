@@ -21,7 +21,7 @@ function ForgotPasswordForm() {
   };
 
   return (
-    <form className="m-[2rem] px-10 py-14 rounded-lg bg-white max-w-[520px] w-full">
+    <form className="relative m-[2rem] px-10 py-14 rounded-lg bg-white max-w-[520px] w-full">
       <div className="relative z-10">
         <h1 className="mb-2 text-center text-[1.35rem] font-medium">
           Enter email to reset password
@@ -49,6 +49,7 @@ function ForgotPasswordForm() {
           </button>
         </div>
       </div>
+      <img src="/flurry.png" alt="" />
     </form>
   );
 }

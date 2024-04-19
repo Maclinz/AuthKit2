@@ -69,7 +69,7 @@ export default function Home() {
         </h1>
 
         {isOpen && (
-          <form className="mt-4 max-w-[400px] w-full">
+          <form className="mt-4 px-8 py-4 max-w-[520px] w-full rounded-md">
             <div className="flex flex-col">
               <label htmlFor="bio" className="mb-1 text-[#999]">
                 Bio
@@ -103,7 +103,7 @@ export default function Home() {
                   user.role !== "admin" && (
                     <li
                       key={i}
-                      className="mb-2 px-2 py-3 border grid grid-cols-4 items-center gap-8"
+                      className="mb-2 px-2 py-3 border grid grid-cols-4 items-center gap-8 rounded-md"
                     >
                       <img
                         src={user.photo}
