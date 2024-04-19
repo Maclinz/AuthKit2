@@ -1,7 +1,8 @@
 "use client";
 import { useUserContext } from "@/context/userContext";
 import useRedirect from "@/hooks/useUserRedirect";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import ChangePasswordForm from "./Components/auth/ChangePasswordForm/ChangePasswordForm";
 
 export default function Home() {
   useRedirect("/login");
@@ -12,6 +13,8 @@ export default function Home() {
     userState,
     updateUser,
     emailVerification,
+    allUsers,
+    deleteUser,
   } = useUserContext();
   const { name, photo, isVerified, bio } = user;
 
@@ -23,6 +26,7 @@ export default function Home() {
     setIsOpen(!isOpen);
   };
 
+  console.log(allUsers);
   return (
     <main className="py-[2rem] mx-[10rem]">
       <header className="flex justify-between">
@@ -87,6 +91,42 @@ export default function Home() {
           </form>
         )}
       </section>
+      <div className="mt-4 flex gap-8">
+        <div className="flex-1">
+          <ChangePasswordForm />
+        </div>
+        <div className="flex-1">
+          {user.role === "admin" && (
+            <ul>
+              {allUsers.map(
+                (user: any, i: number) =>
+                  user.role !== "admin" && (
+                    <li
+                      key={i}
+                      className="mb-2 px-2 py-3 border grid grid-cols-4 items-center gap-8"
+                    >
+                      <img
+                        src={user.photo}
+                        alt={user.name}
+                        className="w-[40px]  h-[40px] rounded-full"
+                      />
+                      <p>{user.name}</p>
+                      <p>{user.bio}</p>
+                      <button
+                        className="bg-red-500 text-white p-2 rounded-md"
+                        onClick={() => {
+                          deleteUser(user._id);
+                        }}
+                      >
+                        Delete User
+                      </button>
+                    </li>
+                  )
+              )}
+            </ul>
+          )}
+        </div>
+      </div>
     </main>
   );
 }
