@@ -4,7 +4,7 @@ import React from "react";
 
 function LoginForm() {
   const { loginUser, userState, handlerUserInput } = useUserContext();
-  const { name, email, password } = userState;
+  const { email, password } = userState;
   const [showPassword, setShowPassword] = React.useState(false);
 
   const togglePassword = () => setShowPassword(!showPassword);

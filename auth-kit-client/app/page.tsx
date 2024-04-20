@@ -26,7 +26,6 @@ export default function Home() {
     setIsOpen(!isOpen);
   };
 
-  console.log(allUsers);
   return (
     <main className="py-[2rem] mx-[10rem]">
       <header className="flex justify-between">

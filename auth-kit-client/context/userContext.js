@@ -1,5 +1,4 @@
 import axios from "axios";
-import { get } from "http";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useContext } from "react";
 import toast from "react-hot-toast";
@@ -107,8 +106,6 @@ export const UserContextProvider = ({ children }) => {
     } catch (error) {
       console.log("Error getting user login status", error);
     }
-
-    console.log("User logged in status", loggedIn);
 
     return loggedIn;
   };
