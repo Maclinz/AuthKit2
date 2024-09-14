@@ -47,7 +47,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     path: "/",
     httpOnly: true,
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    sameSite: true,
+    sameSite: "none", // cross-site access --> allow all third-party cookies
     secure: true,
   });
 
@@ -107,7 +107,7 @@ export const loginUser = asyncHandler(async (req, res) => {
       path: "/",
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      sameSite: true,
+      sameSite: "none", // cross-site access --> allow all third-party cookies
       secure: true,
     });
 
@@ -129,7 +129,12 @@ export const loginUser = asyncHandler(async (req, res) => {
 
 // logout user
 export const logoutUser = asyncHandler(async (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+    path: "/",
+  });
 
   res.status(200).json({ message: "User logged out" });
 });
